@@ -1,0 +1,27 @@
+{
+  "name": "omelet-debug-panel",
+  "version": "0.1.0",
+  "description": "Angular debug panel for monitoring SQL queries, server timing, and debug login",
+  "license": "MIT",
+  "scripts": {
+    "build": "ng-packagr -p ng-package.json",
+    "build:watch": "ng-packagr -p ng-package.json --watch"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=19.0.0",
+    "@angular/common": ">=19.0.0",
+    "@angular/forms": ">=19.0.0",
+    "jose": ">=5.0.0",
+    "primeicons": ">=7.0.0"
+  },
+  "devDependencies": {
+    "@angular/compiler": "^19.2.0",
+    "@angular/compiler-cli": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "@angular/common": "^19.2.0",
+    "@angular/forms": "^19.2.0",
+    "ng-packagr": "^19.2.0",
+    "typescript": "~5.5.0",
+    "jose": "^5.0.0"
+  }
+}
