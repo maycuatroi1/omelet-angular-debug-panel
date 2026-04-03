@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "Angular debug panel for monitoring SQL queries, server timing, and debug login",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maycuatroi1/omelet-angular-debug-panel"
+  },
   "scripts": {
     "build": "ng-packagr -p ng-package.json",
     "build:watch": "ng-packagr -p ng-package.json --watch"
