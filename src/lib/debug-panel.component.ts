@@ -11,51 +11,49 @@ type TabType = 'metrics' | 'login';
   selector: 'omelet-debug-panel',
   standalone: true,
   imports: [CommonModule, MetricsTabComponent, LoginTabComponent],
+  styles: [`
+    .odp-panel { position:fixed; bottom:1rem; right:1rem; width:24rem; background:#111827; color:#fff; border-radius:0.5rem; box-shadow:0 25px 50px -12px rgba(0,0,0,.25); z-index:50; transition:all .3s }
+    .odp-header { background:#1f2937; padding:0.75rem; border-radius:0.5rem 0.5rem 0 0; display:flex; justify-content:space-between; align-items:center }
+    .odp-header-title { font-size:0.875rem; font-weight:700; display:flex; align-items:center; gap:0.5rem }
+    .odp-header-actions { display:flex; gap:0.5rem }
+    .odp-btn-icon { color:#9ca3af; background:none; border:none; cursor:pointer; padding:0 }
+    .odp-btn-icon:hover { color:#fff }
+    .odp-tabs { display:flex; border-bottom:1px solid #374151 }
+    .odp-tab { flex:1; padding:0.5rem 1rem; font-size:0.875rem; font-weight:500; background:none; border:none; cursor:pointer; color:#9ca3af }
+    .odp-tab:hover { color:#fff }
+    .odp-tab-active { color:#60a5fa; border-bottom:2px solid #60a5fa }
+    .odp-fab { position:fixed; bottom:1rem; right:1rem; background:#111827; color:#fff; padding:0.75rem; border-radius:9999px; box-shadow:0 10px 15px -3px rgba(0,0,0,.1); z-index:50; border:none; cursor:pointer }
+    .odp-fab:hover { background:#1f2937 }
+    .odp-alert-dot { position:absolute; top:-0.25rem; right:-0.25rem; width:1rem; height:1rem; background:#ef4444; border-radius:9999px; animation:pulse 2s infinite }
+    @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.5 } }
+  `],
   template: `
     @if (enabled) {
       @if (isExpanded()) {
-        <div class="fixed bottom-4 right-4 w-96 bg-gray-900 text-white rounded-lg shadow-2xl z-50 transition-all duration-300">
-          <div class="bg-gray-800 p-3 rounded-t-lg flex justify-between items-center">
-            <div class="text-sm font-bold flex items-center">
-              <i class="pi pi-chart-bar mr-2"></i>
+        <div class="odp-panel">
+          <div class="odp-header">
+            <div class="odp-header-title">
+              <i class="pi pi-chart-bar"></i>
               Debug Panel
             </div>
-            <div class="flex gap-2">
+            <div class="odp-header-actions">
               @if (activeTab() === 'metrics') {
-                <button
-                  (click)="metrics.clearMetrics()"
-                  class="text-gray-400 hover:text-white transition-colors"
-                  title="Clear metrics"
-                >
+                <button (click)="metrics.clearMetrics()" class="odp-btn-icon" title="Clear metrics">
                   <i class="pi pi-trash"></i>
                 </button>
               }
-              <button (click)="isExpanded.set(false)" class="text-gray-400 hover:text-white transition-colors">
+              <button (click)="isExpanded.set(false)" class="odp-btn-icon">
                 <i class="pi pi-times"></i>
               </button>
             </div>
           </div>
 
-          <div class="flex border-b border-gray-700">
-            <button
-              (click)="activeTab.set('metrics')"
-              [class]="
-                activeTab() === 'metrics'
-                  ? 'flex-1 px-4 py-2 text-sm font-medium text-blue-400 border-b-2 border-blue-400'
-                  : 'flex-1 px-4 py-2 text-sm font-medium text-gray-400 hover:text-white'
-              "
-            >
+          <div class="odp-tabs">
+            <button (click)="activeTab.set('metrics')" [class]="'odp-tab' + (activeTab() === 'metrics' ? ' odp-tab-active' : '')">
               Metrics
             </button>
             @if (hasLogin) {
-              <button
-                (click)="activeTab.set('login')"
-                [class]="
-                  activeTab() === 'login'
-                    ? 'flex-1 px-4 py-2 text-sm font-medium text-blue-400 border-b-2 border-blue-400'
-                    : 'flex-1 px-4 py-2 text-sm font-medium text-gray-400 hover:text-white'
-                "
-              >
+              <button (click)="activeTab.set('login')" [class]="'odp-tab' + (activeTab() === 'login' ? ' odp-tab-active' : '')">
                 Debug Login
               </button>
             }
@@ -69,15 +67,11 @@ type TabType = 'metrics' | 'login';
           }
         </div>
       } @else {
-        <button
-          (click)="isExpanded.set(true)"
-          class="fixed bottom-4 right-4 bg-gray-900 text-white p-3 rounded-full shadow-lg z-50 hover:bg-gray-800 transition-colors"
-          title="Open Debug Panel"
-        >
+        <button (click)="isExpanded.set(true)" class="odp-fab" title="Open Debug Panel">
           @if (isAlert()) {
-            <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse"></span>
+            <span class="odp-alert-dot"></span>
           }
-          <i class="pi pi-chart-bar text-lg"></i>
+          <i class="pi pi-chart-bar" style="font-size:1.25rem"></i>
         </button>
       }
     }
